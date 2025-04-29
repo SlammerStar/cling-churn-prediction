@@ -32,49 +32,36 @@ Cling is a data-driven web application that helps businesses predict customer ch
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/cling-churn-prediction.git
+git clone https://github.com/SlammerStar/cling-churn-prediction.git
 cd cling-churn-prediction
-2. Create Virtual Environment (optional but recommended)
-bash
-Copy
-Edit
+
+### 2. Create Virtual Environment (optional but recommended)
 python -m venv .venv
 source .venv/bin/activate   # macOS/Linux
 # .venv\Scripts\activate     # Windows
-3. Install Dependencies
-bash
-Copy
-Edit
+
+### 3. Install Dependencies
 pip install -r requirements.txt
-4. Setup Database and Default User
-bash
-Copy
-Edit
+
+###4. Setup Database and Default User
 python backend/setup_db.py
 Default login: admin / password
 
-▶️ Run the App
-bash
-Copy
-Edit
+### ▶️ Run the App
 python backend/app.py
 App will be available at:
 http://127.0.0.1:5000
 
-🧪 Testing
+### 🧪 Testing
 Upload a sample test_customers.csv file with this format:
 
-csv
-Copy
-Edit
 id,name,tenure,charges
 1,John Doe,12,89.5
 2,Jane Smith,24,65.3
 ...
-📁 Project Structure
-cpp
-Copy
-Edit
+
+### 📁 Project Structure
+
 Cling/
 ├── backend/
 │   ├── app.py
@@ -95,18 +82,13 @@ Admin view of all user actions
 
 Upload history per user
 
-🙋‍♂️ Author
+### 🙋‍♂️ Author
 Pratham Nigam
 B.Tech, 2nd Year – DBMS Project
 Feel free to reach out or connect on LinkedIn
 
-📝 License
+### 📝 License
 This project is for academic purposes. You may modify or use it with attribution.
-
-yaml
-Copy
-Edit
-
 ---
 
 ### 📌 To use it:
