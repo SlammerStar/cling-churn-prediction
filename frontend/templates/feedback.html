@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Feedback{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Submit Feedback</h2>
+    <form method="POST" action="/submit_feedback" class="mb-4">
+        <div class="mb-3">
+            <textarea class="form-control" name="message" rows="4" required placeholder="Enter your feedback..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <hr>
+
+    <h4>Previous Feedback</h4>
+    <table class="table table-bordered" id="feedbackTable">
+        <thead class="table-light">
+            <tr>
+                <th>User</th>
+                <th>Message</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    fetch('/get_feedback')
+        .then(res => res.json())
+        .then(data => {
+            const tableBody = document.querySelector('#feedbackTable tbody');
+            tableBody.innerHTML = data.map(row => `
+                <tr>
+                    <td>${row.user}</td>
+                    <td>${row.message}</td>
+                    <td>${new Date(row.timestamp).toLocaleString()}</td>
+                </tr>
+            `).join('');
+        });
+});
+</script>
+{% endblock %}

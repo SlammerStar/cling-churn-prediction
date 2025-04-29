@@ -1,0 +1,155 @@
+/* Light Theme */
+body {
+    background-color: #F2F2F2;
+    color: #0D0D0D;
+    transition: all 0.3s ease;
+}
+
+.navbar.bg-primary {
+    background-color: #0476D9 !important;
+}
+
+.navbar-brand, .nav-link, .navbar-text {
+    color: #F2F2F2 !important;
+    font-weight: 500;
+}
+
+.navbar-brand:hover, .nav-link:hover {
+    color: #049DD9 !important;
+}
+
+.btn-outline-light {
+    border-color: #F2F2F2;
+    color: #F2F2F2;
+}
+
+.btn-outline-light:hover {
+    background-color: #0487D9;
+}
+
+/* Dark Theme */
+body.dark-theme {
+    background-color: #0D0D0D;
+    color: #F2F2F2;
+}
+
+body.dark-theme .navbar.bg-primary {
+    background-color: #049DD9 !important;
+}
+
+body.dark-theme .card, body.dark-theme .table, body.dark-theme .modal-content {
+    background-color: #1A1A1A;
+    color: #F2F2F2;
+}
+
+body.dark-theme .btn-outline-light:hover {
+    background-color: #0487D9;
+}
+
+/* Navbar Branding */
+.navbar-brand {
+    font-size: 1.5rem;
+    padding: 0.5rem 1rem;
+}
+
+/* Welcome Page Styles */
+.hero {
+    background-color: #F2F2F2;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+body.dark-theme .hero {
+    background-color: #1A1A1A;
+}
+
+.hero .text-primary {
+    color: #0476D9 !important;
+}
+
+body.dark-theme .hero .text-primary {
+    color: #049DD9 !important;
+}
+
+.features .card {
+    border: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-theme .features .card {
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+}
+
+.features .card-title {
+    color: #0476D9;
+}
+
+body.dark-theme .features .card-title {
+    color: #049DD9;
+}
+
+.about {
+    background-color: #F2F2F2;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+body.dark-theme .about {
+    background-color: #1A1A1A;
+}
+
+/* Page-Specific Styles */
+.card, .table {
+    transition: all 0.3s ease;
+}
+
+.is-invalid {
+    border-color: #dc3545;
+}
+
+.invalid-feedback {
+    color: #dc3545;
+}
+
+.skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+    0% { background-position: -200px 0; }
+    100% { background-position: 200px 0; }
+}
+
+/* Accessibility */
+button:focus, input:focus, select:focus, textarea:focus {
+    box-shadow: 0 0 0 0.2rem rgba(4, 135, 217, 0.5);
+}
+
+.nav-link, .btn {
+    padding: 0.5rem 1rem;
+}
+
+img {
+    height: 275px;
+    width: 275px;
+    border-radius: 10px;
+}
+
+/* Progress bar transition for smoother animation */
+.progress-bar {
+    transition: width 1s ease-in-out;
+    font-weight: 500;
+}
+
+/* Improve badge look */
+.badge {
+    font-size: 0.9rem;
+    padding: 0.5em 0.75em;
+    border-radius: 0.5rem;
+}
+
+/* Support for dark theme progress container */
+body.dark-theme .progress {
+    background-color: #333;
+}

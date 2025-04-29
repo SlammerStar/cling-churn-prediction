@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Action Tracker{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Action Tracker</h2>
+
+    <form id="actionForm" class="row g-3 my-3">
+        <div class="col-md-4">
+            <input type="text" class="form-control" id="customer" placeholder="Customer Name" required autofocus>
+        </div>
+        <div class="col-md-6">
+            <input type="text" class="form-control" id="action" placeholder="Action Taken" required>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Add Action</button>
+        </div>
+    </form>
+
+    <div id="alertBox" style="display: none;" class="alert alert-danger" role="alert"></div>
+
+    <table class="table table-bordered table-hover" id="actionTable">
+        <thead class="table-light">
+            <tr>
+                <th>User</th>
+                <th>Customer</th>
+                <th>Action</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/action_tracker.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Customer Churn Dashboard</h2>
+
+    <form id="filterForm" class="row g-3 mb-4">
+        <div class="col-md-4">
+            <label class="form-label">Tenure (min – max)</label>
+            <div class="input-group">
+                <input type="number" class="form-control" name="tenure_min" placeholder="Min">
+                <input type="number" class="form-control" name="tenure_max" placeholder="Max">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Charges (min – max)</label>
+            <div class="input-group">
+                <input type="number" class="form-control" name="charges_min" placeholder="Min">
+                <input type="number" class="form-control" name="charges_max" placeholder="Max">
+            </div>
+        </div>
+        <div class="col-md-4 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+        </div>
+    </form>
+
+    <div class="row text-center mb-4">
+        <div class="col-md-4">
+            <div class="card border-primary shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Total Customers</h5>
+                    <p id="totalBox" class="display-6 fw-bold">0</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-success shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Retained</h5>
+                    <p id="retainedBox" class="display-6 fw-bold text-success">0</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-danger shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Churned</h5>
+                    <p id="churnedBox" class="display-6 fw-bold text-danger">0</p>
+                    <div id="churnRate" class="text-muted small"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-5 text-center">
+        <h5>Churn Distribution</h5>
+        <div id="churnChart" style="height: 400px;"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-5">
+            <h5 class="text-center">Churn by Tenure Group</h5>
+            <div id="barChart"></div>
+        </div>
+        <div class="col-md-6 mb-5">
+            <h5 class="text-center">Charges Distribution</h5>
+            <div id="histogramChart"></div>
+        </div>
+        <div class="col-md-12 mb-5">
+            <h5 class="text-center">Tenure vs Charges</h5>
+            <div id="scatterPlot"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+function animateCount(id, target) {
+    const el = document.getElementById(id);
+    let count = 0;
+    const step = Math.ceil(target / 50);
+    const interval = setInterval(() => {
+        count += step;
+        if (count >= target) {
+            el.textContent = target;
+            clearInterval(interval);
+        } else {
+            el.textContent = count;
+        }
+    }, 20);
+}
+
+function loadDashboard(filters = {}) {
+    const params = new URLSearchParams(filters);
+    fetch(`/api/dashboard_data?${params}`)
+        .then(res => res.json())
+        .then(data => {
+            if (data.error) {
+                alert(data.error);
+                return;
+            }
+
+            animateCount("totalBox", data.total);
+            animateCount("retainedBox", data.retained);
+            animateCount("churnedBox", data.churned);
+
+            const churnRate = ((data.churned / data.total) * 100).toFixed(1);
+            document.getElementById("churnRate").textContent = `Churn Rate: ${churnRate}%`;
+
+            Plotly.newPlot("churnChart", [{
+                values: [data.churned, data.retained],
+                labels: ["Churned", "Retained"],
+                type: "pie",
+                hole: 0.4,
+                textinfo: "label+percent",
+                hoverinfo: "label+value+percent",
+                marker: {
+                    colors: ["#dc3545", "#198754"]
+                }
+            }], {
+                title: "Churn vs Retention",
+                showlegend: true
+            });
+
+            Plotly.newPlot("barChart", [{
+                x: data.tenure_labels,
+                y: data.tenure_churn,
+                type: "bar",
+                marker: { color: "#0d6efd" },
+                text: data.tenure_churn.map(v => v.toString()),
+                textposition: "auto"
+            }], {
+                title: "Churn Count by Tenure Group",
+                xaxis: { title: "Tenure Range" },
+                yaxis: { title: "Churn Count" }
+            });
+
+            Plotly.newPlot("histogramChart", [{
+                x: data.charges_bins,
+                y: data.charges_counts,
+                type: "bar",
+                marker: { color: "#6f42c1" }
+            }], {
+                title: "Charges Distribution",
+                xaxis: { title: "Charges Range" },
+                yaxis: { title: "Customer Count" }
+            });
+
+            Plotly.newPlot("scatterPlot", [{
+                x: data.tenure_charges.map(p => p[0]),
+                y: data.tenure_charges.map(p => p[1]),
+                mode: "markers",
+                type: "scatter",
+                marker: { color: "#fd7e14" },
+                hovertemplate: "Tenure: %{x}<br>Charges: %{y}<extra></extra>"
+            }], {
+                title: "Tenure vs Charges",
+                xaxis: { title: "Tenure" },
+                yaxis: { title: "Charges" }
+            });
+        });
+}
+
+document.getElementById("filterForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    const filters = Object.fromEntries(formData.entries());
+    loadDashboard(filters);
+});
+
+loadDashboard();
+</script>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Predictions{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white d-flex justify-content-between">
+                <span>Churn Predictions</span>
+                <button id="exportBtn" class="btn btn-outline-light" data-bs-toggle="tooltip"
+                    title="Download predictions as CSV">Export CSV</button>
+            </div>
+            <div class="card-body position-relative">
+                <div id="loadingOverlay"
+                    class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-light opacity-75 d-none"
+                    aria-busy="true">
+                    <div class="spinner-border text-primary" role="status"></div>
+                </div>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th data-sort="id">ID</th>
+                            <th data-sort="name">Name</th>
+                            <th data-sort="probability">Churn Probability</th>
+                            <th data-sort="label">Label</th>
+                            <th>Suggestions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="predictionTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/prediction.js') }}"></script>
+<script>
+    new bootstrap.Tooltip(document.getElementById('exportBtn'));
+</script>
+{% endblock %}

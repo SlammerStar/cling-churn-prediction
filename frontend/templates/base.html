@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Home{% endblock %} - Cling</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/plotly.js@2.27.0/dist/plotly.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}"
+        onerror="console.error('Failed to load styles.css')">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg sticky-top bg-primary" aria-label="Main navigation">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/" aria-label="Cling Home">Cling</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/upload">Upload</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/prediction">Prediction</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/feedback">Feedback</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/action_tracker">Action Tracker</a>
+                    </li>
+                </ul>
+                {% if session['user'] %}
+    <span class="navbar-text me-3">Welcome, <strong>{{ session['user'] }}</strong></span>
+    <a href="/logout" class="btn btn-outline-light btn-sm ms-2">Logout</a>
+{% else %}
+    <span class="navbar-text me-3">Welcome, Guest</span>
+    <a href="/login" class="btn btn-outline-light btn-sm ms-2">Login</a>
+{% endif %}
+
+                <button id="darkModeToggle" class="btn btn-outline-light" aria-label="Toggle dark mode">
+                    <span class="sun-icon">☀️</span>
+                    <span class="moon-icon d-none">🌙</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-4">
+        {% block content %}
+        <!-- Hero Section -->
+        <section class="hero text-center py-5" aria-labelledby="hero-title">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Cling Logo" class="mb-4"
+                onerror="console.error('Image not found: logo.png')" aria-label="Cling Logo">
+            <p class="lead">Predict customer churn and take proactive steps to retain your valued clients with Cling's
+                intuitive data-driven platform.</p>
+            <a href="/upload" class="btn btn-primary btn-lg mt-3"
+                aria-label="Get started by uploading customer data">Get Started</a>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features py-5" aria-labelledby="features-title">
+            <h2 id="features-title" class="text-center mb-4">Key Features</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary">Data Upload</h5>
+                            <p class="card-text">Easily upload customer data via CSV with a drag-and-drop interface and
+                                preview your data instantly.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary">Churn Predictions</h5>
+                            <p class="card-text">View churn probabilities with color-coded insights and download
+                                predictions for further analysis.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary">Interactive Dashboard</h5>
+                            <p class="card-text">Explore churn trends with dynamic charts and filters for contract
+                                types, tenure, and regions.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary">Feedback Collection</h5>
+                            <p class="card-text">Gather customer feedback to understand pain points and improve
+                                retention strategies.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary">Action Tracker</h5>
+                            <p class="card-text">Track retention actions with statuses and notes to ensure
+                                follow-through.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary">Retention Suggestions</h5>
+                            <p class="card-text">Receive tailored suggestions like discounts or support to retain
+                                at-risk customers.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about text-center py-5" aria-labelledby="about-title">
+            <h2 id="about-title" class="mb-4">Why Use Cling?</h2>
+            <p class="lead">Cling empowers businesses to reduce customer churn by leveraging data insights. Upload your
+                data, analyze churn risks, visualize trends, and act on personalized recommendations—all in one place.
+            </p>
+        </section>
+        {% endblock %}
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"
+        onerror="console.error('Failed to load scripts.js')"></script>
+    {% block scripts %}
+    {% endblock %}
+</body>
+
+</html>
