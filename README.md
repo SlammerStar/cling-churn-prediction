@@ -1,6 +1,6 @@
 # Cling - AI Customer Churn Intelligence Platform
 
-[![Vercel Deployment](https://vercelbadge.vercel.app/api/cling-churn-prediction)](https://cling-churn-prediction.vercel.app)
+[![Vercel Deployment](https://img.shields.io/badge/Vercel-Deployed-black?style=flat-square&logo=vercel)](https://cling-churn-prediction.vercel.app)
 [![CI Pipeline](https://github.com/SlammerStar/cling-churn-prediction/actions/workflows/test.yml/badge.svg)](https://github.com/SlammerStar/cling-churn-prediction/actions)
 [![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/release/python-3110/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
