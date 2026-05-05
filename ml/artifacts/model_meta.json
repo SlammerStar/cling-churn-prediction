@@ -1,0 +1,182 @@
+{
+  "best_model": "Logistic Regression",
+  "feature_names": [
+    "gender",
+    "SeniorCitizen",
+    "Partner",
+    "Dependents",
+    "tenure",
+    "PhoneService",
+    "MultipleLines",
+    "InternetService",
+    "OnlineSecurity",
+    "OnlineBackup",
+    "DeviceProtection",
+    "TechSupport",
+    "StreamingTV",
+    "StreamingMovies",
+    "Contract",
+    "PaperlessBilling",
+    "PaymentMethod",
+    "MonthlyCharges",
+    "TotalCharges",
+    "ChargeToTenureRatio",
+    "ServiceBundleScore",
+    "ContractRiskScore",
+    "Senior_MonthlyCharges",
+    "NewCustomer_FiberOptic",
+    "TenureGroup",
+    "TotalCharges_Log",
+    "MonthlyCharges_Log"
+  ],
+  "feature_importances": [
+    {
+      "feature": "TotalCharges_Log",
+      "importance": 0.908137
+    },
+    {
+      "feature": "MonthlyCharges",
+      "importance": 0.493588
+    },
+    {
+      "feature": "ServiceBundleScore",
+      "importance": 0.431526
+    },
+    {
+      "feature": "ContractRiskScore",
+      "importance": 0.382376
+    },
+    {
+      "feature": "Contract",
+      "importance": 0.382376
+    },
+    {
+      "feature": "OnlineSecurity",
+      "importance": 0.290051
+    },
+    {
+      "feature": "TechSupport",
+      "importance": 0.26808
+    },
+    {
+      "feature": "PhoneService",
+      "importance": 0.231972
+    },
+    {
+      "feature": "ChargeToTenureRatio",
+      "importance": 0.230091
+    },
+    {
+      "feature": "PaperlessBilling",
+      "importance": 0.227423
+    },
+    {
+      "feature": "OnlineBackup",
+      "importance": 0.209535
+    },
+    {
+      "feature": "TenureGroup",
+      "importance": 0.20629
+    },
+    {
+      "feature": "SeniorCitizen",
+      "importance": 0.197716
+    },
+    {
+      "feature": "InternetService",
+      "importance": 0.184053
+    },
+    {
+      "feature": "Senior_MonthlyCharges",
+      "importance": 0.171382
+    }
+  ],
+  "all_results": [
+    {
+      "model": "Logistic Regression",
+      "accuracy": 0.741,
+      "precision": 0.5077,
+      "recall": 0.7941,
+      "f1": 0.6194,
+      "roc_auc": 0.8433,
+      "report": "              precision    recall  f1-score   support\n\n           0       0.91      0.72      0.80      1035\n           1       0.51      0.79      0.62       374\n\n    accuracy                           0.74      1409\n   macro avg       0.71      0.76      0.71      1409\nweighted avg       0.80      0.74      0.75      1409\n",
+      "confusion_matrix": [
+        [
+          747,
+          288
+        ],
+        [
+          77,
+          297
+        ]
+      ],
+      "cv_auc_mean": 0.8555,
+      "cv_auc_std": 0.0042
+    },
+    {
+      "model": "Random Forest",
+      "accuracy": 0.7686,
+      "precision": 0.549,
+      "recall": 0.7193,
+      "f1": 0.6227,
+      "roc_auc": 0.8366,
+      "report": "              precision    recall  f1-score   support\n\n           0       0.89      0.79      0.83      1035\n           1       0.55      0.72      0.62       374\n\n    accuracy                           0.77      1409\n   macro avg       0.72      0.75      0.73      1409\nweighted avg       0.80      0.77      0.78      1409\n",
+      "confusion_matrix": [
+        [
+          814,
+          221
+        ],
+        [
+          105,
+          269
+        ]
+      ],
+      "cv_auc_mean": 0.9133,
+      "cv_auc_std": 0.006
+    },
+    {
+      "model": "XGBoost",
+      "accuracy": 0.7786,
+      "precision": 0.5771,
+      "recall": 0.6203,
+      "f1": 0.5979,
+      "roc_auc": 0.8428,
+      "report": "              precision    recall  f1-score   support\n\n           0       0.86      0.84      0.85      1035\n           1       0.58      0.62      0.60       374\n\n    accuracy                           0.78      1409\n   macro avg       0.72      0.73      0.72      1409\nweighted avg       0.78      0.78      0.78      1409\n",
+      "confusion_matrix": [
+        [
+          865,
+          170
+        ],
+        [
+          142,
+          232
+        ]
+      ],
+      "cv_auc_mean": 0.9357,
+      "cv_auc_std": 0.0038
+    },
+    {
+      "model": "Stacking Ensemble (Calibrated)",
+      "accuracy": 0.7828,
+      "precision": 0.5854,
+      "recall": 0.623,
+      "f1": 0.6036,
+      "roc_auc": 0.8404,
+      "report": "              precision    recall  f1-score   support\n\n           0       0.86      0.84      0.85      1035\n           1       0.59      0.62      0.60       374\n\n    accuracy                           0.78      1409\n   macro avg       0.72      0.73      0.73      1409\nweighted avg       0.79      0.78      0.78      1409\n",
+      "confusion_matrix": [
+        [
+          870,
+          165
+        ],
+        [
+          141,
+          233
+        ]
+      ],
+      "cv_auc_mean": 0.9283,
+      "cv_auc_std": 0.0043
+    }
+  ],
+  "churn_rate": 0.2653698707936959,
+  "n_samples": 7043
+}

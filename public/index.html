@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cling - Customer Churn Prediction System</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800&display=swap"
+        rel="stylesheet" />
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <!-- Auth UI container (Clerk) -->
+    <div id="auth-container" style="position: absolute; top: 1.5rem; right: 2rem; z-index: 100;">
+        <button id="auth-btn" class="btn-primary" style="padding: 0.5rem 1rem;">Sign In</button>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+        <div class="sidebar-logo">
+            <h2>Cling<span>.</span></h2>
+            <p>Churn Intelligence</p>
+        </div>
+        <ul class="nav-links">
+            <li class="active" data-page="landing">
+                Home
+            </li>
+            <li data-page="dashboard">
+                Dashboard
+            </li>
+            <li data-page="predict">
+                Single Predict
+            </li>
+            <li data-page="batch">
+                Batch Analyzer
+            </li>
+            <li data-page="insights">
+                Model Insights
+            </li>
+            <li data-page="about">
+                About
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="topbar">
+            <div class="page-title-container">
+                <h1 id="page-title">Welcome to Cling</h1>
+                <p id="page-subtitle">AI-Powered Customer Retention</p>
+            </div>
+            <div class="topbar-actions">
+                <div class="api-status">
+                    <span class="status-dot"></span>
+                    <span id="api-status-text">Checking API...</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Container for pages -->
+        <div class="pages-container">
+
+            <!-- Landing Page -->
+            <section id="page-landing" class="page active">
+                <div class="hero">
+                    <div class="hero-text">
+                        <h1>Stop Customer Churn Before It Happens.</h1>
+                        <p>Leverage cutting-edge machine learning ensembles to predict which customers are at risk,
+                            understand why, and take proactive action.</p>
+                        <button class="btn-primary" onclick="app.navigateTo('predict')">Try Live Demo</button>
+                    </div>
+                    <div class="hero-image">
+                        <!-- Abstract shapes or graphic -->
+                        <div class="abstract-shape shape-1"></div>
+                        <div class="abstract-shape shape-2"></div>
+                        <div class="glass-card demo-preview">
+                            <h3>High Risk Detected</h3>
+                            <p>User #4029 - 84% Churn Probability</p>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill" style="width: 84%; background: var(--danger)"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Dashboard Page -->
+            <section id="page-dashboard" class="page">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <p class="stat-title">Best Model</p>
+                        <h3 id="dash-best-model">Loading...</h3>
+                    </div>
+                    <div class="stat-card">
+                        <p class="stat-title">Test AUC</p>
+                        <h3 id="dash-auc">--</h3>
+                    </div>
+                    <div class="stat-card">
+                        <p class="stat-title">Training Samples</p>
+                        <h3 id="dash-samples">--</h3>
+                    </div>
+                    <div class="stat-card">
+                        <p class="stat-title">Total Predictions Made</p>
+                        <h3 id="dash-total-preds">0</h3>
+                    </div>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-container">
+                        <h3>Global Feature Importance</h3>
+                        <canvas id="chart-global-importance"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Recent Predictions (History)</h3>
+                        <div class="table-container">
+                            <table id="history-table">
+                                <thead>
+                                    <tr>
+                                        <th>Time</th>
+                                        <th>Tenure</th>
+                                        <th>Charges</th>
+                                        <th>Risk Level</th>
+                                        <th>Probability</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="5">No predictions made yet.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Predict Page -->
+            <section id="page-predict" class="page">
+                <div class="predict-container">
+                    <div class="form-panel glass-card">
+                        <h3>Customer Details</h3>
+                        <form id="predict-form">
+                            <div class="form-row">
+                                <div class="input-group">
+                                    <label>Tenure (months)</label>
+                                    <input type="number" id="p-tenure" value="12" required>
+                                </div>
+                                <div class="input-group">
+                                    <label>Monthly Charges ($)</label>
+                                    <input type="number" step="0.01" id="p-monthly" value="85.50" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="input-group">
+                                    <label>Total Charges ($)</label>
+                                    <input type="number" step="0.01" id="p-total" value="1026.00" required>
+                                </div>
+                                <div class="input-group">
+                                    <label>Contract</label>
+                                    <select id="p-contract">
+                                        <option value="Month-to-month">Month-to-month</option>
+                                        <option value="One year">One year</option>
+                                        <option value="Two year">Two year</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- More inputs abbreviated for UI simplicity, but normally all 20+ are here -->
+                            <div class="form-row">
+                                <div class="input-group">
+                                    <label>Internet Service</label>
+                                    <select id="p-internet">
+                                        <option value="Fiber optic">Fiber optic</option>
+                                        <option value="DSL">DSL</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <label>Senior Citizen</label>
+                                    <select id="p-senior">
+                                        <option value="0">No</option>
+                                        <option value="1">Yes</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn-primary w-100" id="btn-predict">Predict Churn Risk</button>
+                        </form>
+                    </div>
+
+                    <div class="result-panel glass-card">
+                        <h3>Prediction Result</h3>
+                        <div id="predict-result-empty" class="empty-state">
+                            <p>Fill out the form and click Predict to see results.</p>
+                        </div>
+                        <div id="predict-result-content" class="hidden">
+                            <div class="gauge-container">
+                                <svg viewBox="0 0 100 50" class="gauge">
+                                    <path class="gauge-bg" d="M 10,50 A 40,40 0 0,1 90,50" />
+                                    <path class="gauge-val" id="gauge-val" d="M 10,50 A 40,40 0 0,1 90,50" />
+                                </svg>
+                                <div class="gauge-text">
+                                    <h2 id="res-prob">--%</h2>
+                                    <span id="res-risk" class="badge">--</span>
+                                </div>
+                            </div>
+
+                            <h4>SHAP-like Feature Impact</h4>
+                            <div id="shap-waterfall" class="shap-container">
+                                <!-- Bars will be injected here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Batch Analyzer Page -->
+            <section id="page-batch" class="page">
+                <div class="glass-card">
+                    <h3>Batch Upload</h3>
+                    <p>Upload a CSV file containing multiple customers to predict churn at scale.</p>
+
+                    <div class="upload-zone" id="upload-zone">
+                        <div class="upload-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" x2="12" y1="3" y2="15"></line>
+                            </svg>
+                        </div>
+                        <h4>Drag & Drop CSV file here</h4>
+                        <p>or click to browse</p>
+                        <input type="file" id="file-upload" accept=".csv" class="hidden">
+                    </div>
+
+                    <button class="btn-primary" id="btn-upload" disabled>Analyze Batch</button>
+                </div>
+
+                <div id="batch-results" class="hidden" style="margin-top: 2rem;">
+                    <h3>Batch Results</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <p class="stat-title">Total Processed</p>
+                            <h3 id="batch-total">--</h3>
+                        </div>
+                        <div class="stat-card">
+                            <p class="stat-title">High Risk Customers</p>
+                            <h3 id="batch-high">--</h3>
+                        </div>
+                        <div class="stat-card">
+                            <p class="stat-title">Average Churn Prob</p>
+                            <h3 id="batch-avg">--</h3>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Insights Page -->
+            <section id="page-insights" class="page">
+                <div class="glass-card" style="margin-bottom: 2rem;">
+                    <h3>Model Performance Evaluation</h3>
+                    <div class="table-container">
+                        <table id="model-compare-table">
+                            <thead>
+                                <tr>
+                                    <th>Model</th>
+                                    <th>Test AUC</th>
+                                    <th>CV AUC</th>
+                                    <th>F1 Score</th>
+                                    <th>Accuracy</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Data populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-container">
+                        <h3>ROC Curve (Approximation)</h3>
+                        <canvas id="chart-roc"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Confusion Matrix</h3>
+                        <div class="confusion-matrix" id="confusion-matrix">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Page -->
+            <section id="page-about" class="page">
+                <div class="glass-card">
+                    <h2>Architecture & Methodology</h2>
+                    <p>Cling is a full-stack ML application built for production scale.</p>
+                    <ul>
+                        <li><strong>Backend:</strong> Python Serverless Functions deployed on Vercel.</li>
+                        <li><strong>Machine Learning:</strong> Scikit-learn, XGBoost, Optuna. SMOTE for class imbalance,
+                            CalibratedClassifierCV for reliable probabilities.</li>
+                        <li><strong>Frontend:</strong> Vanilla HTML/JS with CSS Glassmorphism design. Chart.js for data
+                            visualization.</li>
+                        <li><strong>Database:</strong> Supabase (PostgreSQL) for prediction tracking.</li>
+                    </ul>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <div id="toast" class="toast">Message</div>
+    <div id="loader" class="loader hidden">
+        <div class="spinner"></div>
+        <p>Processing...</p>
+    </div>
+
+    <script src="/js/app.js"></script>
+    <script>
+        // Clerk Authentication
+        const clerkPubKey = 'pk_test_Y2xlcmsuY2xpbmcuY2h1cm4uY29tJA'; // Dummy key for demo, replace with real
+
+        const script = document.createElement('script');
+        script.setAttribute('data-clerk-publishable-key', clerkPubKey);
+        script.async = true;
+        script.src = 'https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js';
+        script.crossOrigin = 'anonymous';
+
+        script.addEventListener('load', async () => {
+            await window.Clerk.load();
+            const authContainer = document.getElementById('auth-container');
+
+            if (window.Clerk.user) {
+                app.userId = window.Clerk.user.id;
+                authContainer.innerHTML = '<div id="user-btn"></div>';
+                window.Clerk.mountUserButton(document.getElementById('user-btn'));
+                app.loadHistory(); // load personal history
+            } else {
+                const btn = document.getElementById('auth-btn');
+                if (btn) {
+                    btn.addEventListener('click', () => {
+                        window.Clerk.openSignIn();
+                    });
+                }
+            }
+        });
+        document.body.appendChild(script);
+    </script>
+</body>
+
+</html>
