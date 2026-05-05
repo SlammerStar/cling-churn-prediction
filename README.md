@@ -1,7 +1,7 @@
 # Cling - AI Customer Churn Intelligence Platform
 
-[![Vercel Deployment](https://vercelbadge.vercel.app/api/your-vercel-project)](https://cling-churn-prediction.vercel.app)
-[![CI Pipeline](https://github.com/SlammerStar/cling/actions/workflows/test.yml/badge.svg)](https://github.com/SlammerStar/cling/actions)
+[![Vercel Deployment](https://vercelbadge.vercel.app/api/cling-churn-prediction)](https://cling-churn-prediction.vercel.app)
+[![CI Pipeline](https://github.com/SlammerStar/cling-churn-prediction/actions/workflows/test.yml/badge.svg)](https://github.com/SlammerStar/cling-churn-prediction/actions)
 [![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/release/python-3110/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -63,8 +63,8 @@ We use the Telco Customer Churn dataset.
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/cling.git
-   cd cling
+   git clone https://github.com/SlammerStar/cling-churn-prediction.git
+   cd cling-churn-prediction
    ```
 2. Create a `.env` file (Optional for DB/Email):
    ```env
