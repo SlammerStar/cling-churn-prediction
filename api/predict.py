@@ -24,9 +24,9 @@ def predict():
         return response
 
     try:
-        data = request.get_json(force=True)
+        data = request.get_json(silent=True)
         if not data:
-            response = jsonify({"error": "No JSON body provided"})
+            response = jsonify({"error": "No JSON body provided or invalid JSON"})
             response.headers['Access-Control-Allow-Origin'] = '*'
             return response, 400
 
