@@ -3,7 +3,11 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier, StackingClassifier
 from sklearn.calibration import CalibratedClassifierCV
 from sklearn.model_selection import cross_val_score, StratifiedKFold
-import optuna
+try:
+    import optuna
+    OPTUNA_AVAILABLE = True
+except ImportError:
+    OPTUNA_AVAILABLE = False
 
 try:
     from xgboost import XGBClassifier
@@ -63,8 +67,11 @@ def get_best_models(X_train, y_train, use_optuna=True):
     if use_optuna:
         print("  Running Optuna to optimize Random Forest...")
         try:
-            rf_params = optimize_hyperparameters(X_train, y_train, n_trials=10)
-            print(f"  Optuna best RF params: {rf_params}")
+            if OPTUNA_AVAILABLE:
+                rf_params = optimize_hyperparameters(X_train, y_train, n_trials=10)
+                print(f"  Optuna best RF params: {rf_params}")
+            else:
+                print("  Optuna not available, using default params.")
         except Exception as e:
             print(f"  Optuna failed, using default params. Error: {e}")
             
